@@ -46,6 +46,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestNeededPermissions()
+        FirebaseAuth.getInstance().signInAnonymously()
         setContent {
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) { RelayApp() }
@@ -76,18 +77,17 @@ private fun RelayApp() {
     var receiverCode by remember { mutableStateOf(prefs.getString("receiver_pairing_code", "") ?: "") }
     var messages by remember { mutableStateOf<List<String>>(emptyList()) }
     var status by remember { mutableStateOf("Connecting to Firebase…") }
-    var authReady by remember { mutableStateOf(FirebaseAuth.getInstance().currentUser != null) }
 
     LaunchedEffect(Unit) {
         val auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null) status = "Connected to Firebase"
         else auth.signInAnonymously()
-            .addOnSuccessListener { authReady = true; status = "Connected to Firebase" }
+            .addOnSuccessListener { status = "Connected to Firebase" }
             .addOnFailureListener { status = "Firebase sign-in failed: ${it.localizedMessage}" }
     }
 
-    DisposableEffect(mode, receiverCode, authReady) {
-        if (!authReady || mode != RelayMode.RECEIVER || receiverCode.length < 16) {
+    DisposableEffect(mode, receiverCode) {
+        if (mode != RelayMode.RECEIVER || receiverCode.length < 16) {
             messages = emptyList()
             onDispose { }
         } else {
