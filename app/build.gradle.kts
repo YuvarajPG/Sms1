@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.yuvaraj.smsrelay"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.yuvaraj.smsrelay"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 2
         versionName = "1.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
