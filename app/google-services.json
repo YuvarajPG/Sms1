@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "123456789",
-    "project_id": "sms-relay-fake",
-    "storage_bucket": "sms-relay-fake.appspot.com"
+    "project_number": "942618433463",
+    "project_id": "project-a8795",
+    "storage_bucket": "project-a8795.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123456789:android:abcdef123456",
+        "mobilesdk_app_id": "1:942618433463:android:6cfc180b2cee8c10eb7a32",
         "android_client_info": {
           "package_name": "com.yuvaraj.smsrelay"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "fake-key"
+          "current_key": "AIzaSyB4KBzTHyO2Rai6N39SyXf4nFX1GcpwoQE"
         }
       ],
       "services": {

@@ -1,24 +1,17 @@
 rules_version = '2';
 
-// Paste this into Firebase Console -> Firestore Database -> Rules -> Publish.
-//
-// Security model:
-//  - Rooms can't be listed. You can only reach a room if you know its ID,
-//    and the ID is derived from the secret pairing code (PBKDF2), so it
-//    can't be guessed.
-//  - Messages are end-to-end encrypted (AES-GCM, key from the pairing code),
-//    so Firestore only ever stores ciphertext.
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /rooms/{room}/messages/{msg} {
+    match /rooms/{roomId}/messages/{messageId} {
+      // Pairing codes are generated randomly (16+ characters) and never
+      // uploaded. The room ID is their SHA-256 digest. Only ciphertext is stored.
       allow read, delete: if request.auth != null;
-
       allow create: if request.auth != null
-        && request.resource.data.keys().hasOnly(['p', 'at', 'expireAt'])
-        && request.resource.data.p is string
-        && request.resource.data.p.size() < 30000
-        && request.resource.data.at == request.time;
-
+        && request.resource.data.keys().hasOnly(['nonce', 'ciphertext', 'sender', 'createdAt'])
+        && request.resource.data.nonce is string
+        && request.resource.data.ciphertext is string
+        && request.resource.data.sender is string
+        && request.resource.data.createdAt == request.time;
       allow update: if false;
     }
   }
