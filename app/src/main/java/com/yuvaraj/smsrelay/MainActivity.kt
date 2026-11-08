@@ -1,6 +1,7 @@
 package com.yuvaraj.smsrelay
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -70,7 +71,7 @@ private enum class RelayMode { SENDER, RECEIVER }
 @androidx.compose.runtime.Composable
 private fun RelayApp() {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val prefs = remember { context.getSharedPreferences("sms_relay", MODE_PRIVATE) }
+    val prefs = remember { context.getSharedPreferences("sms_relay", Context.MODE_PRIVATE) }
     var mode by remember { mutableStateOf(RelayMode.SENDER) }
     var pairingCode by remember { mutableStateOf(prefs.getString("sender_pairing_code", "") ?: "") }
     var receiverCode by remember { mutableStateOf(prefs.getString("receiver_pairing_code", "") ?: "") }
